@@ -9,6 +9,9 @@ import com.maisproximo.app_backend.service.LojaService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class LojaServiceImpl implements LojaService {
@@ -32,5 +35,12 @@ public class LojaServiceImpl implements LojaService {
                         new ResourceNotFoundException("Loja com o id informado não existe: " + lojaId));
         return LojaMapper.mapToLojaDto(loja);
 
+    }
+
+    @Override
+    public List<LojaDto> getAllLojas() {
+        List<Loja> lojas = lojaRepository.findAll();
+        return lojas.stream().map((loja) -> LojaMapper.mapToLojaDto(loja))
+                .collect(Collectors.toList());
     }
 }

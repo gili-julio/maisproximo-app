@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/lojas")
@@ -26,6 +28,13 @@ public class LojaController {
     public ResponseEntity<LojaDto> getLojaById(@PathVariable("id") Long lojaId) {
         LojaDto lojaDto = lojaService.getLojaById(lojaId);
         return ResponseEntity.ok(lojaDto);
+    }
+
+    //Construir Get All Lojas REST API
+    @GetMapping
+    public ResponseEntity<List<LojaDto>> getAllLojas() {
+        List<LojaDto> lojas = lojaService.getAllLojas();
+        return ResponseEntity.ok(lojas);
     }
 
 }
