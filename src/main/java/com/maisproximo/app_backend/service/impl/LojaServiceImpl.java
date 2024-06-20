@@ -88,7 +88,7 @@ public class LojaServiceImpl implements LojaService {
         Loja loja = lojaRepository.findById(lojaId).orElseThrow(
                 () -> new ResourceNotFoundException("Loja com o id informado não existe: " + lojaId)
         );
-        loja.setImagePath(imagePath);
+        loja.setImagePath(image.getOriginalFilename());
         image.transferTo(new File(imagePath));
         Loja updatedLojaObj = lojaRepository.save(loja);
         return LojaMapper.mapToLojaDto(updatedLojaObj);
@@ -100,8 +100,8 @@ public class LojaServiceImpl implements LojaService {
                 () -> new ResourceNotFoundException("Loja com o id informado não existe: " + lojaId)
         );
         LojaDto lojaDto = LojaMapper.mapToLojaDto(loja);
-        String imagePath = lojaDto.getImagePath();
-        if(imagePath==null) {
+        String imagePath = IMAGE_FOLDER_PATH+lojaDto.getImagePath();
+        if(lojaDto.getImagePath()==null) {
             return null;
         }
         return Files.readAllBytes(new File(imagePath).toPath());
