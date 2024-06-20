@@ -12,4 +12,6 @@ public interface LojaService {
     List<LojaDto> getAllLojas();
 
     LojaDto updateLoja(Long lojaId, LojaDto updateLoja);
+
+    void deleteLoja(Long lojaId);
 }

@@ -62,5 +62,16 @@ public class LojaServiceImpl implements LojaService {
 
     }
 
+    @Override
+    public void deleteLoja(Long lojaId) {
+
+        Loja loja = lojaRepository.findById(lojaId).orElseThrow(
+                () -> new ResourceNotFoundException("Loja com o id informado não existe: " + lojaId)
+        );
+
+        lojaRepository.deleteById(lojaId);
+
+    }
+
 
 }
