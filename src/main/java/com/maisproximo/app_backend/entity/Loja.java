@@ -32,7 +32,8 @@ public class Loja {
     @Column(name = "image_path")
     private String imagePath;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Produto> produtos = new HashSet<>();
+    @OneToMany(mappedBy = "loja", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<Produto> produtos;
 
 }
