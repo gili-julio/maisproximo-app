@@ -8,7 +8,8 @@ public class LojaMapper {
         return new LojaDto(
                 loja.getId(),
                 loja.getNome(),
-                loja.getCnpjOrCpf()
+                loja.getCnpjOrCpf(),
+                loja.getProdutos()
         );
     }
 
@@ -16,7 +17,8 @@ public class LojaMapper {
         return new Loja(
                 lojaDto.getId(),
                 lojaDto.getNome(),
-                lojaDto.getCnpjOrCpf()
+                lojaDto.getCnpjOrCpf(),
+                lojaDto.getProdutos()
         );
     }
 }
