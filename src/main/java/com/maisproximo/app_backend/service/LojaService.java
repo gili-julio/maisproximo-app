@@ -10,4 +10,6 @@ public interface LojaService {
     LojaDto getLojaById(Long id);
 
     List<LojaDto> getAllLojas();
+
+    LojaDto updateLoja(Long lojaId, LojaDto updateLoja);
 }

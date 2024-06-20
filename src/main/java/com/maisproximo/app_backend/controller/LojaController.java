@@ -37,4 +37,14 @@ public class LojaController {
         return ResponseEntity.ok(lojas);
     }
 
+    //Construir Update Loja REST API
+    @PutMapping("{id}")
+    public ResponseEntity<LojaDto> updateLoja(@PathVariable("id") Long lojaId,
+                                              @RequestBody LojaDto updatedLoja) {
+
+        LojaDto lojaDto = lojaService.updateLoja(lojaId, updatedLoja);
+        return ResponseEntity.ok(lojaDto);
+
+    }
+
 }

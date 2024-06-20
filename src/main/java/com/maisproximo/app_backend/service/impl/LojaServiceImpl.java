@@ -39,8 +39,28 @@ public class LojaServiceImpl implements LojaService {
 
     @Override
     public List<LojaDto> getAllLojas() {
+
         List<Loja> lojas = lojaRepository.findAll();
         return lojas.stream().map((loja) -> LojaMapper.mapToLojaDto(loja))
                 .collect(Collectors.toList());
+
     }
+
+    @Override
+    public LojaDto updateLoja(Long lojaId, LojaDto updateLoja) {
+
+        Loja loja = lojaRepository.findById(lojaId).orElseThrow(
+                () -> new ResourceNotFoundException("Loja com o id informado não existe: " + lojaId)
+        );
+
+        loja.setNome(updateLoja.getNome());
+        loja.setCnpjOrCpf(updateLoja.getCnpjOrCpf());
+
+        Loja updatedLojaObj = lojaRepository.save(loja);
+
+        return LojaMapper.mapToLojaDto(updatedLojaObj);
+
+    }
+
+
 }
