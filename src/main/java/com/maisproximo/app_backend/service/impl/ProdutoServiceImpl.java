@@ -41,7 +41,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public List<ProdutoDto> getAllProdutos() {
         List<Produto> produtos = produtoRepository.findAll();
-        return produtos.stream().map((produto) -> ProdutoMapper.mapToProdutoDto(produto))
+        return produtos.stream().map(ProdutoMapper::mapToProdutoDto)
                 .collect(Collectors.toList());
     }
 
@@ -62,7 +62,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void deleteProduto(Long produtoId) {
 
-        Produto produto = produtoRepository.findById(produtoId).orElseThrow(
+        produtoRepository.findById(produtoId).orElseThrow(
                 () -> new ResourceNotFoundException("Produto com o id informado não existe: " + produtoId)
         );
 

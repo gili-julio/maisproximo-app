@@ -7,7 +7,6 @@ import com.maisproximo.app_backend.mapper.LojaMapper;
 import com.maisproximo.app_backend.repository.LojaRepository;
 import com.maisproximo.app_backend.service.LojaService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,7 +48,7 @@ public class LojaServiceImpl implements LojaService {
     public List<LojaDto> getAllLojas() {
 
         List<Loja> lojas = lojaRepository.findAll();
-        return lojas.stream().map((loja) -> LojaMapper.mapToLojaDto(loja))
+        return lojas.stream().map(LojaMapper::mapToLojaDto)
                 .collect(Collectors.toList());
 
     }
@@ -74,7 +73,7 @@ public class LojaServiceImpl implements LojaService {
     @Override
     public void deleteLoja(Long lojaId) {
 
-        Loja loja = lojaRepository.findById(lojaId).orElseThrow(
+        lojaRepository.findById(lojaId).orElseThrow(
                 () -> new ResourceNotFoundException("Loja com o id informado não existe: " + lojaId)
         );
 

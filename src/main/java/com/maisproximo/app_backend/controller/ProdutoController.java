@@ -1,6 +1,5 @@
 package com.maisproximo.app_backend.controller;
 
-import com.maisproximo.app_backend.dto.LojaDto;
 import com.maisproximo.app_backend.dto.ProdutoDto;
 import com.maisproximo.app_backend.service.ProdutoService;
 import lombok.AllArgsConstructor;
