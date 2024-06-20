@@ -16,5 +16,6 @@ public class LojaDto {
     private Long id;
     private String nome;
     private String cnpjOrCpf;
+    private String imagePath;
     private Set<Produto> produtos;
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -28,8 +29,10 @@ public class Loja {
     @Column(name = "cnpj_or_cpf", unique = true, nullable = false, length = 18)
     private String cnpjOrCpf;
 
-    @OneToMany(mappedBy = "loja")
-    @JsonManagedReference
-    private Set<Produto> produtos;
+    @Column(name = "image_path")
+    private String imagePath;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Produto> produtos = new HashSet<>();
 
 }

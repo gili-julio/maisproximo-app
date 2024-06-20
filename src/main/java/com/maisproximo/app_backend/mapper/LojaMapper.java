@@ -9,6 +9,7 @@ public class LojaMapper {
                 loja.getId(),
                 loja.getNome(),
                 loja.getCnpjOrCpf(),
+                loja.getImagePath(),
                 loja.getProdutos()
         );
     }
@@ -18,6 +19,7 @@ public class LojaMapper {
                 lojaDto.getId(),
                 lojaDto.getNome(),
                 lojaDto.getCnpjOrCpf(),
+                lojaDto.getImagePath(),
                 lojaDto.getProdutos()
         );
     }
