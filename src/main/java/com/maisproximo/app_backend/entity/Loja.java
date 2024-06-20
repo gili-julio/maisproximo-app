@@ -22,7 +22,7 @@ public class Loja {
     @Column(name = "nome", nullable = false, length = 60)
     private String nome;
 
-    @Column(name = "cnpj_or_cpf", unique = true, nullable = false, length = 14)
-    private Long cnpjOrCpf;
+    @Column(name = "cnpj_or_cpf", unique = true, nullable = false, length = 18)
+    private String cnpjOrCpf;
 
 }

@@ -12,5 +12,5 @@ import lombok.Setter;
 public class LojaDto {
     private Long id;
     private String nome;
-    private Long cnpjOrCpf;
+    private String cnpjOrCpf;
 }
