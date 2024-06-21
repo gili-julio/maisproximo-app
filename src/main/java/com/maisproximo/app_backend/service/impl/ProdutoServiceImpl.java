@@ -15,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,9 +70,23 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void deleteProduto(Long produtoId) {
 
-        produtoRepository.findById(produtoId).orElseThrow(
+        Produto produto = produtoRepository.findById(produtoId).orElseThrow(
                 () -> new ResourceNotFoundException("Produto com o id informado não existe: " + produtoId)
         );
+
+        if(produto.getImagePath()!=null) {
+            File file = new File(IMAGE_FOLDER_PATH+produto.getImagePath());
+            try {
+                Files.delete(file.toPath());
+            } catch (NoSuchFileException x) {
+                System.err.format("%s: não foi encontrado arquivo ou diretorio%n", file.toPath());
+            } catch (DirectoryNotEmptyException x) {
+                System.err.format("%s não vazio%n", file.toPath());
+            } catch (IOException x) {
+                // File permission problems are caught here.
+                System.err.println(x);
+            }
+        }
 
         produtoRepository.deleteById(produtoId);
 
