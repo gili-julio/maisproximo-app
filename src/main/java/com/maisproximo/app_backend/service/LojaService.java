@@ -15,7 +15,7 @@ public interface LojaService {
 
     LojaDto updateLoja(Long lojaId, LojaDto updateLoja);
 
-    void deleteLoja(Long lojaId);
+    void deleteLoja(Long lojaId) throws IOException;
 
     LojaDto uploadImageToLoja(Long lojaId, MultipartFile image) throws IOException;
 

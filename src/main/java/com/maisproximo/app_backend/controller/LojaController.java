@@ -67,7 +67,7 @@ public class LojaController {
 
     //Construir Delete Loja REST API
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteLoja(@PathVariable("id") Long lojaId) {
+    public ResponseEntity<String> deleteLoja(@PathVariable("id") Long lojaId) throws IOException {
         lojaService.deleteLoja(lojaId);
         return ResponseEntity.ok("Loja deletada com sucesso!");
     }

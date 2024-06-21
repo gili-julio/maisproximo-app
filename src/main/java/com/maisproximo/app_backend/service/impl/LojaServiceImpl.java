@@ -2,10 +2,12 @@ package com.maisproximo.app_backend.service.impl;
 
 import com.maisproximo.app_backend.dto.LojaDto;
 import com.maisproximo.app_backend.entity.Loja;
+import com.maisproximo.app_backend.entity.Produto;
 import com.maisproximo.app_backend.exception.ResourceNotFoundException;
 import com.maisproximo.app_backend.mapper.LojaMapper;
 import com.maisproximo.app_backend.repository.LojaRepository;
 import com.maisproximo.app_backend.service.LojaService;
+import com.maisproximo.app_backend.service.ProdutoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +18,7 @@ import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,7 +76,7 @@ public class LojaServiceImpl implements LojaService {
     }
 
     @Override
-    public void deleteLoja(Long lojaId) {
+    public void deleteLoja(Long lojaId) throws IOException {
 
         Loja loja = lojaRepository.findById(lojaId).orElseThrow(
                 () -> new ResourceNotFoundException("Loja com o id informado não existe: " + lojaId)
@@ -84,12 +87,20 @@ public class LojaServiceImpl implements LojaService {
             try {
                 Files.delete(file.toPath());
             } catch (NoSuchFileException x) {
-                System.err.format("%s: no such" + " file or directory%n", file.toPath());
+                System.err.format("%s: não foi encontrado arquivo ou diretorio%n", file.toPath());
             } catch (DirectoryNotEmptyException x) {
-                System.err.format("%s not empty%n", file.toPath());
+                System.err.format("%s não vazio%n", file.toPath());
             } catch (IOException x) {
                 // File permission problems are caught here.
                 System.err.println(x);
+            }
+        }
+        Set<Produto> produtos = loja.getProdutos();
+
+        for (Produto produto : produtos) {
+            if(produto.getImagePath()!=null) {
+                File file = new File(IMAGE_FOLDER_PATH+"produtos/"+produto.getImagePath());
+                Files.delete(file.toPath());
             }
         }
 
