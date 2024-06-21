@@ -12,7 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,9 +75,23 @@ public class LojaServiceImpl implements LojaService {
     @Override
     public void deleteLoja(Long lojaId) {
 
-        lojaRepository.findById(lojaId).orElseThrow(
+        Loja loja = lojaRepository.findById(lojaId).orElseThrow(
                 () -> new ResourceNotFoundException("Loja com o id informado não existe: " + lojaId)
         );
+
+        if(loja.getImagePath()!=null) {
+            File file = new File(IMAGE_FOLDER_PATH+loja.getImagePath());
+            try {
+                Files.delete(file.toPath());
+            } catch (NoSuchFileException x) {
+                System.err.format("%s: no such" + " file or directory%n", file.toPath());
+            } catch (DirectoryNotEmptyException x) {
+                System.err.format("%s not empty%n", file.toPath());
+            } catch (IOException x) {
+                // File permission problems are caught here.
+                System.err.println(x);
+            }
+        }
 
         lojaRepository.deleteById(lojaId);
 
@@ -83,11 +99,15 @@ public class LojaServiceImpl implements LojaService {
 
     @Override
     public LojaDto uploadImageToLoja(Long lojaId, MultipartFile image) throws IOException {
-        String imagePath = IMAGE_FOLDER_PATH+image.getOriginalFilename();
+        String imagePath = IMAGE_FOLDER_PATH
+                +"loja("+lojaId+")."
+                +image.getContentType().replaceAll("(?i)image/", "");
         Loja loja = lojaRepository.findById(lojaId).orElseThrow(
                 () -> new ResourceNotFoundException("Loja com o id informado não existe: " + lojaId)
         );
-        loja.setImagePath(image.getOriginalFilename());
+        loja.setImagePath(
+                "loja("+lojaId+")."+image.getContentType().replaceAll("(?i)image/", "")
+        );
         image.transferTo(new File(imagePath));
         Loja updatedLojaObj = lojaRepository.save(loja);
         return LojaMapper.mapToLojaDto(updatedLojaObj);
