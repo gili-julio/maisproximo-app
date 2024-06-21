@@ -4,9 +4,12 @@ import com.maisproximo.app_backend.dto.ProdutoDto;
 import com.maisproximo.app_backend.service.ProdutoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -16,6 +19,22 @@ import java.util.List;
 public class ProdutoController {
 
     private ProdutoService produtoService;
+
+    //Construir uploadImageToProduto REST API
+    @PostMapping("{id}/image")
+    public ResponseEntity<ProdutoDto> uploadImageToProduto(@PathVariable("id") Long produtoId,
+                                              @RequestBody MultipartFile image) throws IOException {
+        ProdutoDto produtoComImagem = produtoService.uploadImageToProduto(produtoId, image);
+        return ResponseEntity.ok(produtoComImagem);
+    }
+
+    @GetMapping("{id}/image")
+    public ResponseEntity<?> downloadImageFromProduto(@PathVariable("id") Long produtoId) throws IOException {
+        byte[] image = produtoService.downloadImageFromProduto(produtoId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(image);
+    }
 
     //Construir Add Produto REST API
     @PostMapping

@@ -10,6 +10,7 @@ public class ProdutoMapper {
                 produto.getId(),
                 produto.getNome(),
                 produto.getPreco(),
+                produto.getImagePath(),
                 produto.getLoja().getId()
         );
     }
@@ -19,6 +20,7 @@ public class ProdutoMapper {
                 produtoDto.getId(),
                 produtoDto.getNome(),
                 produtoDto.getPreco(),
+                produtoDto.getImagePath(),
                 loja
         );
     }

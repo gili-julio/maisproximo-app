@@ -24,6 +24,9 @@ public class Produto {
     @Column(name = "preco", nullable = false)
     private Double preco;
 
+    @Column(name = "image_path")
+    private String imagePath;
+
     @ManyToOne
     @JoinColumn(name="loja_id", nullable = false)
     @JsonBackReference

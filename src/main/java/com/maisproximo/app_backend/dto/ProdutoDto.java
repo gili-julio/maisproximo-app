@@ -13,5 +13,6 @@ public class ProdutoDto {
     private Long id;
     private String nome;
     private Double preco;
+    private String imagePath;
     private Long lojaId;
 }
